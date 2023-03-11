@@ -18,10 +18,6 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
 
--- Load Debian menu entries
-local debian = require('debian.menu')
-local has_fdo, freedesktop = pcall(require, 'freedesktop')
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -59,7 +55,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
 terminal = 'kitty'
-editor = os.getenv('EDITOR') or 'nvim'
+editor = 'nvim' or os.getenv('EDITOR')
 editor_cmd = terminal .. ' -e ' .. editor
 
 -- Default modkey.
@@ -110,25 +106,14 @@ myawesomemenu = {
   },
 }
 
-local menu_awesome = { 'awesome', myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { 'open terminal', terminal }
+mymainmenu = awful.menu({
+  items = { { 'awesome', myawesomemenu, beautiful.awesome_icon }, { 'open terminal', terminal } },
+})
 
-if has_fdo then
-  mymainmenu = freedesktop.menu.build({
-    before = { menu_awesome },
-    after = { menu_terminal },
-  })
-else
-  mymainmenu = awful.menu({
-    items = {
-      menu_awesome,
-      { 'Debian', debian.menu.Debian_menu.Debian },
-      menu_terminal,
-    },
-  })
-end
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = mymainmenu })
+mylauncher = awful.widget.launcher({
+  image = beautiful.awesome_icon,
+  menu = mymainmenu,
+})
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -256,7 +241,6 @@ awful.screen.connect_for_each_screen(function(s)
       },
       layout = wibox.layout.flex.horizontal,
     },
-
     widget_template = {
       {
         {
@@ -294,14 +278,16 @@ awful.screen.connect_for_each_screen(function(s)
   -- Add widgets to the wibox
   s.mywibox:setup({
     layout = wibox.layout.align.horizontal,
-    { -- Left widgets
+    {
+      -- Left widgets
       layout = wibox.layout.fixed.horizontal,
       mylauncher,
       s.mytaglist,
       s.mypromptbox,
     },
     s.mytasklist, -- Middle widget
-    { -- Right widgets
+    {
+      -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       mykeyboardlayout,
       wibox.widget.systray(),
@@ -328,7 +314,6 @@ globalkeys = gears.table.join(
   awful.key({ modkey }, 'Left', awful.tag.viewprev, { description = 'view previous', group = 'tag' }),
   awful.key({ modkey }, 'Right', awful.tag.viewnext, { description = 'view next', group = 'tag' }),
   awful.key({ modkey }, 'Escape', awful.tag.history.restore, { description = 'go back', group = 'tag' }),
-
   awful.key({ modkey }, 'j', function()
     awful.client.focus.byidx(1)
   end, { description = 'focus next by index', group = 'client' }),
@@ -366,7 +351,6 @@ globalkeys = gears.table.join(
   end, { description = 'open a terminal', group = 'launcher' }),
   awful.key({ modkey, 'Control' }, 'r', awesome.restart, { description = 'reload awesome', group = 'awesome' }),
   awful.key({ modkey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
-
   awful.key({ modkey }, 'l', function()
     awful.tag.incmwfact(0.05)
   end, { description = 'increase master width factor', group = 'layout' }),
@@ -560,7 +544,6 @@ awful.rules.rules = {
         'veromix',
         'xtightvncviewer',
       },
-
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
       name = {
@@ -615,20 +598,24 @@ client.connect_signal('request::titlebars', function(c)
   )
 
   awful.titlebar(c):setup({
-    { -- Left
+    {
+      -- Left
       awful.titlebar.widget.iconwidget(c),
       buttons = buttons,
       layout = wibox.layout.fixed.horizontal,
     },
-    { -- Middle
-      { -- Title
+    {
+      -- Middle
+      {
+        -- Title
         align = 'center',
         widget = awful.titlebar.widget.titlewidget(c),
       },
       buttons = buttons,
       layout = wibox.layout.flex.horizontal,
     },
-    { -- Right
+    {
+      -- Right
       awful.titlebar.widget.floatingbutton(c),
       awful.titlebar.widget.maximizedbutton(c),
       awful.titlebar.widget.stickybutton(c),
