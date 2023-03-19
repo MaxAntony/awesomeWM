@@ -18,6 +18,16 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
 
+-- awesome-wm-widgets
+local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+local net_speed_widget = require('awesome-wm-widgets.net-speed-widget.net-speed')
+local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
+local docker_widget = require('awesome-wm-widgets.docker-widget.docker')
+local fs_widget = require('awesome-wm-widgets.fs-widget.fs-widget')
+local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
+local pacman_widget = require('awesome-wm-widgets.pacman-widget.pacman')
+local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -51,7 +61,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
+beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
 terminal = 'kitty'
@@ -67,19 +77,19 @@ modkey = 'Mod4'
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.max,
-  awful.layout.suit.floating,
-  awful.layout.suit.tile,
-  awful.layout.suit.tile.left,
-  awful.layout.suit.tile.bottom,
-  awful.layout.suit.tile.top,
   awful.layout.suit.fair,
-  awful.layout.suit.fair.horizontal,
-  awful.layout.suit.spiral,
-  awful.layout.suit.spiral.dwindle,
-  awful.layout.suit.max.fullscreen,
+  awful.layout.suit.max,
+  -- awful.layout.suit.floating,
+  awful.layout.suit.tile,
+  -- awful.layout.suit.tile.left,
+  -- awful.layout.suit.tile.bottom,
+  awful.layout.suit.tile.top,
+  -- awful.layout.suit.fair.horizontal,
+  -- awful.layout.suit.spiral,
+  -- awful.layout.suit.spiral.dwindle,
   awful.layout.suit.magnifier,
-  awful.layout.suit.corner.nw,
+  -- awful.layout.suit.corner.nw,
+  awful.layout.suit.max.fullscreen,
   -- awful.layout.suit.corner.ne,
   -- awful.layout.suit.corner.sw,
   -- awful.layout.suit.corner.se,
@@ -125,6 +135,15 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+local cw = calendar_widget({
+  theme = 'nord',
+  placement = 'top_right',
+})
+mytextclock:connect_signal('button::press', function(_, _, _, button)
+  if button == 1 then
+    cw.toggle()
+  end
+end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -289,6 +308,20 @@ awful.screen.connect_for_each_screen(function(s)
     {
       -- Right widgets
       layout = wibox.layout.fixed.horizontal,
+      pacman_widget(),
+      volume_widget({
+        widget_type = 'arc',
+      }),
+      net_speed_widget(),
+      cpu_widget(),
+      ram_widget(),
+      docker_widget(),
+      fs_widget({
+        mounts = {
+          '/',
+          '/home',
+        },
+      }),
       mykeyboardlayout,
       wibox.widget.systray(),
       mytextclock,
@@ -399,8 +432,18 @@ globalkeys = gears.table.join(
   end, { description = 'lua execute prompt', group = 'awesome' }),
   -- Menubar
   awful.key({ modkey }, 'p', function()
-    menubar.show()
-  end, { description = 'show the menubar', group = 'launcher' })
+    awful.util.spawn('rofi -show drun -show-icons')
+  end, { description = 'show rofi menu', group = 'launcher' }),
+
+  awful.key({}, 'XF86AudioRaiseVolume', function()
+    awful.util.spawn('pamixer -i 5', false)
+  end, { description = 'volume up', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioLowerVolume', function()
+    awful.util.spawn('pamixer -d 5', false)
+  end, { description = 'volume down', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioMute', function()
+    awful.util.spawn('pamixer -m', false)
+  end, { description = 'volume mute', group = 'multimedia' })
 )
 
 clientkeys = gears.table.join(
@@ -408,15 +451,18 @@ clientkeys = gears.table.join(
     c.fullscreen = not c.fullscreen
     c:raise()
   end, { description = 'toggle fullscreen', group = 'client' }),
+
   awful.key({ modkey, 'Shift' }, 'c', function(c)
     c:kill()
   end, { description = 'close', group = 'client' }),
+
   awful.key(
     { modkey, 'Control' },
     'space',
     awful.client.floating.toggle,
     { description = 'toggle floating', group = 'client' }
   ),
+
   awful.key({ modkey, 'Control' }, 'Return', function(c)
     c:swap(awful.client.getmaster())
   end, { description = 'move to master', group = 'client' }),
@@ -573,6 +619,11 @@ awful.rules.rules = {
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.connect_signal('manage', function(c)
+  -- round corners
+  c.shape = function(cr, w, h)
+    gears.shape.rounded_rect(cr, w, h, 9)
+  end
+
   -- Set the windows at the slave,
   -- i.e. put it at the end of others instead of setting it master.
   -- if not awesome.startup then awful.client.setslave(c) end
@@ -639,3 +690,14 @@ client.connect_signal('unfocus', function(c)
   c.border_color = beautiful.border_normal
 end)
 -- }}}
+
+-- awful.spawn('nitrogen --restore')
+-- awful.spawn.with_shell('~/.config/awesome/autorun.sh')
+-- awful.spawn('picom -b')
+awful.spawn.with_shell(
+  'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;'
+    .. 'xrdb -merge <<< "awesome.started:true";'
+    -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
+    .. 'dex --environment Awesome --autostart'
+)
+awful.spawn.with_shell('~/.config/awesome/autorun.sh')
