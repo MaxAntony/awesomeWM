@@ -154,9 +154,10 @@ local taglist_buttons = gears.table.join(
     if client.focus then
       client.focus:toggle_tag(t)
     end
-  end),
-  awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
-  awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
+  end)
+  -- remove tag change on mouse scroll
+  -- awful.button({}, 4, function(t) awful.tag.viewnext(t.screen) end),
+  -- awful.button({}, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
 local tasklist_buttons = gears.table.join(
@@ -167,9 +168,10 @@ local tasklist_buttons = gears.table.join(
       c:emit_signal('request::activate', 'tasklist', { raise = true })
     end
   end),
-  awful.button({}, 3, function() awful.menu.client_list({ theme = { width = 250 } }) end),
-  awful.button({}, 4, function() awful.client.focus.byidx(1) end),
-  awful.button({}, 5, function() awful.client.focus.byidx(-1) end)
+  awful.button({}, 3, function() awful.menu.client_list({ theme = { width = 250 } }) end)
+  -- remove cliente change on mouse scroll
+  -- awful.button({}, 4, function() awful.client.focus.byidx(1) end),
+  -- awful.button({}, 5, function() awful.client.focus.byidx(-1) end)
 )
 
 local function set_wallpaper(s)
@@ -199,14 +201,13 @@ awful.screen.connect_for_each_screen(function(s)
   -- Create an imagebox widget which will contain an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
   s.mylayoutbox = awful.widget.layoutbox(s)
-  s.mylayoutbox:buttons(
-    gears.table.join(
-      awful.button({}, 1, function() awful.layout.inc(1) end),
-      awful.button({}, 3, function() awful.layout.inc(-1) end),
-      awful.button({}, 4, function() awful.layout.inc(1) end),
-      awful.button({}, 5, function() awful.layout.inc(-1) end)
-    )
-  )
+  s.mylayoutbox:buttons(gears.table.join(
+    awful.button({}, 1, function() awful.layout.inc(1) end),
+    awful.button({}, 3, function() awful.layout.inc(-1) end)
+    -- disable change layout on mouse scroll
+    -- awful.button({}, 4, function() awful.layout.inc(1) end),
+    -- awful.button({}, 5, function() awful.layout.inc(-1) end)
+  ))
   -- Create a taglist widget
   s.mytaglist = awful.widget.taglist({
     screen = s,
@@ -310,7 +311,12 @@ end)
 -- }}}
 
 -- {{{ Mouse bindings
-root.buttons(gears.table.join(awful.button({}, 3, function() mymainmenu:toggle() end), awful.button({}, 4, awful.tag.viewnext), awful.button({}, 5, awful.tag.viewprev)))
+root.buttons(gears.table.join(
+  awful.button({}, 3, function() mymainmenu:toggle() end)
+  -- remove tag change on mouse scroll on wallpaper
+  -- awful.button({}, 4, awful.tag.viewnext),
+  -- awful.button({}, 5, awful.tag.viewprev)
+))
 -- }}}
 
 -- {{{ Key bindings
