@@ -9,5 +9,5 @@ function run {
 
 setxkbmap -layout "us,es" -option "grp:alt_shift_toggle"
 
-run nitrogen --restore &
+run nitrogen --restore
 run picom -b 
