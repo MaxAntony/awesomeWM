@@ -2,6 +2,6 @@
 
 - pamixer
 - jetbrains font
-- picom-ftlabs-git
+- picom-pijulius-git
 - pavucontrol
 - nitrogen
