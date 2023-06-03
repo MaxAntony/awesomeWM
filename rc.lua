@@ -194,7 +194,7 @@ awful.screen.connect_for_each_screen(function(s)
   set_wallpaper(s)
 
   -- Each screen has its own tag table.
-  awful.tag({ '1', '2', '3', '4', '5' }, s, awful.layout.layouts[1])
+  awful.tag({ '  ', '   ', '   ', '   ', ' 󰵅 ' }, s, awful.layout.layouts[1])
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
@@ -217,6 +217,7 @@ awful.screen.connect_for_each_screen(function(s)
 
   -- Create a tasklist widget
   s.mytasklist = awful.widget.tasklist({
+
     screen = s,
     filter = awful.widget.tasklist.filter.currenttags,
     buttons = tasklist_buttons,
@@ -271,7 +272,7 @@ awful.screen.connect_for_each_screen(function(s)
   })
 
   -- Create the wibox
-  s.mywibox = awful.wibar({ position = 'top', screen = s })
+  s.mywibox = awful.wibar({ position = 'top', screen = s, bg = beautiful.bg_normal .. '75' })
 
   -- Add widgets to the wibox
   s.mywibox:setup({
@@ -299,6 +300,7 @@ awful.screen.connect_for_each_screen(function(s)
         mounts = {
           '/',
           '/home',
+          '/win10',
         },
       }),
       mykeyboardlayout,
