@@ -384,9 +384,9 @@ globalkeys = gears.table.join(
   -- Menubar
   awful.key({ modkey }, 'p', function() awful.util.spawn('rofi -show drun -show-icons') end, { description = 'show rofi menu', group = 'launcher' }),
 
-  awful.key({}, 'XF86AudioRaiseVolume', function() awful.util.spawn('pamixer -i 5', false) end, { description = 'volume up', group = 'multimedia' }),
-  awful.key({}, 'XF86AudioLowerVolume', function() awful.util.spawn('pamixer -d 5', false) end, { description = 'volume down', group = 'multimedia' }),
-  awful.key({}, 'XF86AudioMute', function() awful.util.spawn('pamixer -m', false) end, { description = 'volume mute', group = 'multimedia' })
+  awful.key({}, 'XF86AudioRaiseVolume', function() awful.util.spawn('pamixer -i 2', false) end, { description = 'volume up', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioLowerVolume', function() awful.util.spawn('pamixer -d 2', false) end, { description = 'volume down', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioMute', function() awful.util.spawn('pamixer -t', false) end, { description = 'volume mute', group = 'multimedia' })
 )
 
 clientkeys = gears.table.join(
