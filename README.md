@@ -5,3 +5,4 @@
 - picom-pijulius-git
 - pavucontrol
 - nitrogen
+- polkit-gnome
