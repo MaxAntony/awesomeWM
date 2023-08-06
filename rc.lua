@@ -38,7 +38,9 @@ naughty.connect_signal(
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(string.format('%s/.config/awesome/themes/%s/theme.lua', os.getenv('HOME'), 'custom') .. 'zenburn/theme.lua')
+-- default themes in /usr/share/awesome/themes
+local awesome_dir = string.format('%s/.config/awesome', os.getenv('HOME'))
+beautiful.init(string.format('%s/themes/%s/theme.lua', awesome_dir, 'custom'))
 
 -- This is used later as the default terminal and editor to run.
 terminal = 'kitty'
