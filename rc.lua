@@ -21,6 +21,15 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
 
+-- awesome-wm-widgets
+local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+local net_speed_widget = require('awesome-wm-widgets.net-speed-widget.net-speed')
+local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
+local docker_widget = require('awesome-wm-widgets.docker-widget.docker')
+local fs_widget = require('awesome-wm-widgets.fs-widget.fs-widget')
+local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
+local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -123,7 +132,16 @@ end)
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock(' %a %b %d, %I:%M ')
+local cw = calendar_widget({
+  theme = 'nord',
+  placement = 'top_right',
+})
+mytextclock:connect_signal('button::press', function(_, _, _, button)
+  if button == 1 then
+    cw.toggle()
+  end
+end)
 
 screen.connect_signal('request::desktop_decoration', function(s)
   -- Each screen has its own tag table.
@@ -242,6 +260,17 @@ screen.connect_signal('request::desktop_decoration', function(s)
       s.mytasklist, -- Middle widget
       { -- Right widgets
         layout = wibox.layout.fixed.horizontal,
+        volume_widget({ widget_type = 'arc' }),
+        net_speed_widget(),
+        cpu_widget(),
+        ram_widget(),
+        fs_widget({
+          mounts = {
+            '/',
+            '/home',
+            '/win10',
+          },
+        }),
         mykeyboardlayout,
         wibox.widget.systray(),
         mytextclock,
