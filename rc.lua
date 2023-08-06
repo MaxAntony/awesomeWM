@@ -176,13 +176,61 @@ screen.connect_signal('request::desktop_decoration', function(s)
       awful.button({}, 4, function() awful.client.focus.byidx(-1) end),
       awful.button({}, 5, function() awful.client.focus.byidx(1) end),
     },
+    style = {
+      shape_border_width = 0,
+      shape_border_color = '#777777',
+      shape = gears.shape.rounded_bar,
+    },
+    layout = {
+      spacing = 10,
+      spacing_widget = {
+        {
+          forced_width = 5,
+          shape = gears.shape.circle,
+          widget = wibox.widget.separator,
+        },
+        valign = 'center',
+        halign = 'center',
+        widget = wibox.container.place,
+      },
+      layout = wibox.layout.flex.horizontal,
+    },
+    widget_template = {
+      {
+        {
+          {
+            {
+              {
+                id = 'icon_role',
+                widget = wibox.widget.imagebox,
+              },
+              margins = 1,
+              widget = wibox.container.margin,
+            },
+            {
+              id = 'text_role',
+              widget = wibox.widget.textbox,
+            },
+            widget = wibox.layout.fixed.horizontal,
+          },
+          widget = wibox.container.place,
+          valign = 'center',
+          halign = 'center',
+        },
+        left = 10,
+        right = 10,
+        widget = wibox.container.margin,
+      },
+      id = 'background_role',
+      widget = wibox.container.background,
+    },
   })
 
   -- Create the wibox
   s.mywibox = awful.wibar({
     position = 'top',
     screen = s,
-    bg = beautiful.bg_normal .. '80',
+    bg = beautiful.bg_normal .. 'bb',
     widget = {
       layout = wibox.layout.align.horizontal,
       { -- Left widgets
