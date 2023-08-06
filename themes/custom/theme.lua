@@ -11,12 +11,13 @@ local themes_path = string.format('%s/.config/awesome/themes/%s/', os.getenv('HO
 
 local theme = {}
 
-theme.font = 'sans 8'
+theme.font = 'FiraMono Nerd Font 10'
 
 theme.bg_normal = '#222222'
 theme.bg_focus = '#535d6c'
 theme.bg_urgent = '#ff0000'
 theme.bg_minimize = '#444444'
+-- cant have transparent background
 theme.bg_systray = theme.bg_normal
 
 theme.fg_normal = '#aaaaaa'
@@ -24,17 +25,21 @@ theme.fg_focus = '#ffffff'
 theme.fg_urgent = '#ffffff'
 theme.fg_minimize = '#ffffff'
 
-theme.useless_gap = dpi(0)
-theme.border_width = dpi(1)
-theme.border_color_normal = '#000000'
-theme.border_color_active = '#535d6c'
+theme.useless_gap = dpi(5)
+theme.border_width = dpi(3)
+theme.border_color_normal = '#535d6c'
+theme.border_color_active = '#ffffff'
 theme.border_color_marked = '#91231c'
 
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
+theme.taglist_bg_focus = theme.bg_normal .. 'cc'
 -- tasklist_[bg|fg]_[focus|urgent]
+-- https://awesomewm.org/doc/api/classes/awful.widget.tasklist.html
+theme.tasklist_bg_normal = theme.bg_normal .. '10'
+theme.tasklist_bg_focus = theme.bg_normal .. 'aa'
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
@@ -117,7 +122,7 @@ theme.awesome_icon = theme_assets.awesome_icon(theme.menu_height, theme.bg_focus
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = nil
+theme.icon_theme = 'Papirus'
 
 -- Set different colors for urgent notifications.
 rnotification.connect_signal('request::rules', function()
