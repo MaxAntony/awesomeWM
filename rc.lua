@@ -537,6 +537,34 @@ ruled.client.connect_signal('request::rules', function()
 end)
 -- }}}
 
+client.connect_signal('request::manage', function(c)
+  -- round corners
+  c.shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 9) end
+
+  -- use custom icons for clients and tasklist, issue: https://github.com/awesomeWM/awesome/issues/3587
+  awful.spawn.easy_async_with_shell('sleep 0.1', function()
+    if c.valid then
+      if c.instance ~= nil then
+        local icon = menubar.utils.lookup_icon(c.instance)
+        local lower_icon = menubar.utils.lookup_icon(c.instance:lower())
+        if icon ~= nil then
+          local new_icon = gears.surface(icon)
+          c.icon = new_icon._native
+        elseif lower_icon ~= nil then
+          local new_icon = gears.surface(lower_icon)
+          c.icon = new_icon._native
+        elseif c.icon == nil then
+          local new_icon = gears.surface(menubar.utils.lookup_icon('application-default-icon'))
+          c.icon = new_icon._native
+        end
+      else
+        local new_icon = gears.surface(menubar.utils.lookup_icon('application-default-icon'))
+        c.icon = new_icon._native
+      end
+    end
+  end)
+end)
+
 -- {{{ Titlebars
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal('request::titlebars', function(c)
