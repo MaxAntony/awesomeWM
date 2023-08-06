@@ -313,7 +313,14 @@ awful.keyboard.append_global_keybindings({
   ),
   awful.key({ modkey }, 'Return', function() awful.spawn(terminal) end, { description = 'open a terminal', group = 'launcher' }),
   awful.key({ modkey }, 'r', function() awful.screen.focused().mypromptbox:run() end, { description = 'run prompt', group = 'launcher' }),
-  awful.key({ modkey }, 'p', function() menubar.show() end, { description = 'show the menubar', group = 'launcher' }),
+  awful.key({ modkey }, 'p', function() awful.spawn('rofi -show drun -show-icons') end, { description = 'show rofi menu', group = 'launcher' }),
+})
+
+-- Volume related keybindings
+awful.keyboard.append_global_keybindings({
+  awful.key({}, 'XF86AudioRaiseVolume', function() awful.util.spawn('pamixer -i 2', false) end, { description = 'volume up', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioLowerVolume', function() awful.util.spawn('pamixer -d 2', false) end, { description = 'volume down', group = 'multimedia' }),
+  awful.key({}, 'XF86AudioMute', function() awful.util.spawn('pamixer -t', false) end, { description = 'volume mute', group = 'multimedia' }),
 })
 
 -- Tags related keybindings
@@ -445,7 +452,8 @@ client.connect_signal('request::default_keybindings', function()
     awful.key({ modkey, 'Shift' }, 'c', function(c) c:kill() end, { description = 'close', group = 'client' }),
     awful.key({ modkey, 'Control' }, 'space', awful.client.floating.toggle, { description = 'toggle floating', group = 'client' }),
     awful.key({ modkey, 'Control' }, 'Return', function(c) c:swap(awful.client.getmaster()) end, { description = 'move to master', group = 'client' }),
-    awful.key({ modkey }, 'o', function(c) c:move_to_screen() end, { description = 'move to screen', group = 'client' }),
+    awful.key({ modkey }, 'o', function(c) c:move_to_screen() end, { description = 'move to next screen', group = 'client' }),
+    awful.key({ modkey }, 'i', function(c) c:move_to_screen(c.screen.index - 1) end, { description = 'move to previous screen', group = 'client' }),
     awful.key({ modkey }, 't', function(c) c.ontop = not c.ontop end, { description = 'toggle keep on top', group = 'client' }),
     awful.key({ modkey }, 'n', function(c)
       -- The client currently has the input focus, so it cannot be
