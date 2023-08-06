@@ -23,9 +23,9 @@ require('awful.hotkeys_popup.keys')
 
 -- awesome-wm-widgets
 local volume_widget = require('awesome-wm-widgets.pactl-widget.volume')
+local volume_widget_instance = volume_widget({ widget_type = 'arc' })
 local net_speed_widget = require('awesome-wm-widgets.net-speed-widget.net-speed')
 local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
-local docker_widget = require('awesome-wm-widgets.docker-widget.docker')
 local fs_widget = require('awesome-wm-widgets.fs-widget.fs-widget')
 local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
@@ -260,7 +260,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
       s.mytasklist, -- Middle widget
       { -- Right widgets
         layout = wibox.layout.fixed.horizontal,
-        volume_widget({ widget_type = 'arc' }),
+        awful.widget.only_on_screen(volume_widget_instance, s.primary),
         net_speed_widget(),
         cpu_widget(),
         ram_widget(),
