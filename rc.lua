@@ -185,11 +185,12 @@ screen.connect_signal('request::desktop_decoration', function(s)
   s.mywibox = awful.wibar({
     position = 'top',
     screen = s,
+    bg = beautiful.bg_normal .. '80',
     widget = {
       layout = wibox.layout.align.horizontal,
       { -- Left widgets
         layout = wibox.layout.fixed.horizontal,
-        mylauncher,
+        -- mylauncher,
         s.mytaglist,
         s.mypromptbox,
       },
