@@ -198,7 +198,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
     style = {
       shape_border_width = 0,
       shape_border_color = '#777777',
-      shape = gears.shape.rounded_bar,
+      -- shape = gears.shape.rounded_bar,
     },
     layout = {
       spacing = 10,
@@ -248,7 +248,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
   -- Create the wibox
   s.mywibox = awful.wibar({
     -- TODO: search for anti-aliasing for borders
-    shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 15) end,
+    -- shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 15) end,
     margins = {
       top = 10,
       left = 10,
@@ -548,7 +548,7 @@ end)
 
 client.connect_signal('request::manage', function(c)
   -- round corners
-  c.shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 9) end
+  -- c.shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 9) end
 
   -- use custom icons for clients and tasklist, issue: https://github.com/awesomeWM/awesome/issues/3587
   awful.spawn.easy_async_with_shell('sleep 0.1', function()
