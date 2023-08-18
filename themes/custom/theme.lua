@@ -13,22 +13,25 @@ local theme = {}
 
 theme.font = 'FiraMono Nerd Font 10'
 
+theme.primary = '#000000'
+
 theme.bg_normal = '#222222'
 theme.bg_focus = '#535d6c'
 theme.bg_urgent = '#ff0000'
 theme.bg_minimize = '#444444'
+theme.white = '#ffffff'
 -- cant have transparent background
 theme.bg_systray = theme.bg_normal
 
 theme.fg_normal = '#aaaaaa'
-theme.fg_focus = '#ffffff'
-theme.fg_urgent = '#ffffff'
-theme.fg_minimize = '#ffffff'
+theme.fg_focus = theme.white
+theme.fg_urgent = theme.white
+theme.fg_minimize = theme.white
 
 theme.useless_gap = dpi(5)
 theme.border_width = dpi(3)
-theme.border_color_normal = '#535d6c'
-theme.border_color_active = '#ffffff'
+theme.border_color_normal = theme.bg_normal .. 'cc'
+theme.border_color_active = theme.white
 theme.border_color_marked = '#91231c'
 
 -- There are other variable sets
@@ -36,10 +39,13 @@ theme.border_color_marked = '#91231c'
 -- defined, the sets are:
 -- taglist_[bg|fg]_[focus|urgent|occupied|empty|volatile]
 theme.taglist_bg_focus = theme.bg_normal .. 'cc'
+theme.taglist_fg_empty = theme.white
+theme.taglist_fg_occupied = theme.white
 -- tasklist_[bg|fg]_[focus|urgent]
 -- https://awesomewm.org/doc/api/classes/awful.widget.tasklist.html
-theme.tasklist_bg_normal = theme.bg_normal .. '10'
-theme.tasklist_bg_focus = theme.bg_normal .. 'aa'
+theme.tasklist_bg_normal = theme.primary .. '00'
+theme.tasklist_fg_normal = theme.white
+theme.tasklist_bg_focus = theme.bg_normal .. 'cc'
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
