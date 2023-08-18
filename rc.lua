@@ -200,20 +200,20 @@ screen.connect_signal('request::desktop_decoration', function(s)
       shape_border_color = '#777777',
       -- shape = gears.shape.rounded_bar,
     },
-    layout = {
-      spacing = 10,
-      spacing_widget = {
-        {
-          forced_width = 5,
-          shape = gears.shape.circle,
-          widget = wibox.widget.separator,
-        },
-        valign = 'center',
-        halign = 'center',
-        widget = wibox.container.place,
-      },
-      layout = wibox.layout.flex.horizontal,
-    },
+    -- layout = {
+    --   spacing = 10,
+    --   spacing_widget = {
+    --     {
+    --       -- forced_width = 5,
+    --       -- shape = gears.shape.circle,
+    --       -- widget = wibox.widget.separator,
+    --     },
+    --     valign = 'center',
+    --     halign = 'center',
+    --     widget = wibox.container.place,
+    --   },
+    --   layout = wibox.layout.flex.horizontal,
+    -- },
     widget_template = {
       {
         {
@@ -223,7 +223,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
                 id = 'icon_role',
                 widget = wibox.widget.imagebox,
               },
-              margins = 1,
+              margins = 2,
               widget = wibox.container.margin,
             },
             {
@@ -257,7 +257,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
     },
     position = 'top',
     screen = s,
-    bg = beautiful.bg_normal .. 'bb',
+    bg = '#000000' .. '55',
     widget = {
       layout = wibox.layout.align.horizontal,
       { -- Left widgets
