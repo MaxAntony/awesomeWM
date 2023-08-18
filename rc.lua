@@ -247,7 +247,6 @@ screen.connect_signal('request::desktop_decoration', function(s)
 
   -- Create the wibox
   s.mywibox = awful.wibar({
-    -- TODO: search for anti-aliasing for borders
     -- shape = function(cr, w, h) gears.shape.rounded_rect(cr, w, h, 15) end,
     margins = {
       top = 10,
