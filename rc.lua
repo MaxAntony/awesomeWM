@@ -34,6 +34,7 @@ local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
+
 naughty.connect_signal(
   'request::display_error',
   function(message, startup)
@@ -293,8 +294,8 @@ end)
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings({
   awful.button({}, 3, function() mymainmenu:toggle() end),
-  awful.button({}, 4, awful.tag.viewprev),
-  awful.button({}, 5, awful.tag.viewnext),
+  -- awful.button({}, 4, awful.tag.viewprev),
+  -- awful.button({}, 5, awful.tag.viewnext),
 })
 -- }}}
 
@@ -341,16 +342,16 @@ awful.keyboard.append_global_keybindings({
 
 -- Focus related keybindings
 awful.keyboard.append_global_keybindings({
-  awful.key({ modkey }, 'j', function() awful.client.focus.byidx(1) end, { description = 'focus next by index', group = 'client' }),
-  awful.key({ modkey }, 'k', function() awful.client.focus.byidx(-1) end, { description = 'focus previous by index', group = 'client' }),
+  awful.key({ modkey }, 'j', function() awful.client.focus.byidx(-1) end, { description = 'focus previous', group = 'client' }),
+  awful.key({ modkey }, 'k', function() awful.client.focus.byidx(1) end, { description = 'focus next', group = 'client' }),
   awful.key({ modkey }, 'Tab', function()
     awful.client.focus.history.previous()
     if client.focus then
       client.focus:raise()
     end
   end, { description = 'go back', group = 'client' }),
-  awful.key({ modkey, 'Control' }, 'j', function() awful.screen.focus_relative(1) end, { description = 'focus the next screen', group = 'screen' }),
-  awful.key({ modkey, 'Control' }, 'k', function() awful.screen.focus_relative(-1) end, { description = 'focus the previous screen', group = 'screen' }),
+  awful.key({ modkey, 'Control' }, 'j', function() awful.screen.focus_relative(-1) end, { description = 'focus previous screen', group = 'screen' }),
+  awful.key({ modkey, 'Control' }, 'k', function() awful.screen.focus_relative(1) end, { description = 'focus next screen', group = 'screen' }),
   awful.key({ modkey, 'Control' }, 'n', function()
     local c = awful.client.restore()
     -- Focus restored client
@@ -362,8 +363,8 @@ awful.keyboard.append_global_keybindings({
 
 -- Layout related keybindings
 awful.keyboard.append_global_keybindings({
-  awful.key({ modkey, 'Shift' }, 'j', function() awful.client.swap.byidx(1) end, { description = 'swap with next client by index', group = 'client' }),
-  awful.key({ modkey, 'Shift' }, 'k', function() awful.client.swap.byidx(-1) end, { description = 'swap with previous client by index', group = 'client' }),
+  awful.key({ modkey, 'Shift' }, 'j', function() awful.client.swap.byidx(-1) end, { description = 'swap with previous client', group = 'client' }),
+  awful.key({ modkey, 'Shift' }, 'k', function() awful.client.swap.byidx(1) end, { description = 'swap with next client by index', group = 'client' }),
   awful.key({ modkey }, 'u', awful.client.urgent.jumpto, { description = 'jump to urgent client', group = 'client' }),
   awful.key({ modkey }, 'l', function() awful.tag.incmwfact(0.05) end, { description = 'increase master width factor', group = 'layout' }),
   awful.key({ modkey }, 'h', function() awful.tag.incmwfact(-0.05) end, { description = 'decrease master width factor', group = 'layout' }),
