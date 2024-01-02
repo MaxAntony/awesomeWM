@@ -7,6 +7,7 @@ function run {
     fi
 }
 
+# mapping for change keyboard layout
 setxkbmap -layout "us,es" -option "grp:alt_shift_toggle"
 
 # wallpaper
@@ -18,6 +19,7 @@ run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run mattermost-desktop
 run thunderbird
 run ferdium
+run nextcloud
 
 # find profile names in ~/config/google-chrome
 # open chrome with 'pacami' profile and open youtube
@@ -35,4 +37,5 @@ run firefox https://reddit.com
 firefox https://dev.to
 
 
+setxkbmap -layout "us,es" -option "grp:alt_shift_toggle"
 
