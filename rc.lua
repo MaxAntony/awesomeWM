@@ -30,6 +30,8 @@ local cpu_widget = require('awesome-wm-widgets.cpu-widget.cpu-widget')
 local fs_widget = require('awesome-wm-widgets.fs-widget.fs-widget')
 local ram_widget = require('awesome-wm-widgets.ram-widget.ram-widget')
 local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
+-- https://github.com/streetturtle/awesome-wm-widgets/issues/267
+local translate = require('awesome-wm-widgets.translate-widget.translate')
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -94,7 +96,7 @@ tag.connect_signal('request::default_layouts', function()
     awful.layout.suit.tile.top,
     awful.layout.suit.magnifier,
     awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.floating,
+    awful.layout.suit.floating,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.fair.horizontal,
@@ -331,6 +333,21 @@ awful.keyboard.append_global_keybindings({
   awful.key({}, 'XF86AudioRaiseVolume', function() awful.util.spawn('pamixer -i 2', false) end, { description = 'volume up', group = 'multimedia' }),
   awful.key({}, 'XF86AudioLowerVolume', function() awful.util.spawn('pamixer -d 2', false) end, { description = 'volume down', group = 'multimedia' }),
   awful.key({}, 'XF86AudioMute', function() awful.util.spawn('pamixer -t', false) end, { description = 'volume mute', group = 'multimedia' }),
+})
+
+-- Translate plugin keybindings
+awful.keyboard.append_global_keybindings({
+  awful.key(
+    { modkey },
+    'c',
+    function()
+      translate.launch({
+        api_key = 'v-UaSVw9KoXBHKbjQeiYWCFQUHgX7MRkboksQNdWse8I',
+        url = 'https://api.us-south.language-translator.watson.cloud.ibm.com/instances/6a507eca-c419-46df-a451-0e72534ec0ac',
+      })
+    end,
+    { description = 'run translate prompt', group = 'launcher' }
+  ),
 })
 
 -- Tags related keybindings
