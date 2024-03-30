@@ -367,8 +367,8 @@ awful.keyboard.append_global_keybindings({
       client.focus:raise()
     end
   end, { description = 'go back', group = 'client' }),
-  awful.key({ modkey, 'Control' }, 'j', function() awful.screen.focus_relative(-1) end, { description = 'focus previous screen', group = 'screen' }),
-  awful.key({ modkey, 'Control' }, 'k', function() awful.screen.focus_relative(1) end, { description = 'focus next screen', group = 'screen' }),
+  awful.key({ modkey, 'Control' }, 'k', function() awful.screen.focus_relative(-1) end, { description = 'focus previous screen', group = 'screen' }),
+  awful.key({ modkey, 'Control' }, 'j', function() awful.screen.focus_relative(1) end, { description = 'focus next screen', group = 'screen' }),
   awful.key({ modkey, 'Control' }, 'n', function()
     local c = awful.client.restore()
     -- Focus restored client
@@ -479,8 +479,8 @@ client.connect_signal('request::default_keybindings', function()
     awful.key({ modkey, 'Shift' }, 'c', function(c) c:kill() end, { description = 'close', group = 'client' }),
     awful.key({ modkey, 'Control' }, 'space', awful.client.floating.toggle, { description = 'toggle floating', group = 'client' }),
     awful.key({ modkey, 'Control' }, 'Return', function(c) c:swap(awful.client.getmaster()) end, { description = 'move to master', group = 'client' }),
-    awful.key({ modkey }, 'o', function(c) c:move_to_screen() end, { description = 'move to next screen', group = 'client' }),
-    awful.key({ modkey }, 'i', function(c) c:move_to_screen(c.screen.index - 1) end, { description = 'move to previous screen', group = 'client' }),
+    awful.key({ modkey }, 'i', function(c) c:move_to_screen() end, { description = 'move to next screen', group = 'client' }),
+    awful.key({ modkey }, 'o', function(c) c:move_to_screen(c.screen.index - 1) end, { description = 'move to previous screen', group = 'client' }),
     awful.key({ modkey }, 't', function(c) c.ontop = not c.ontop end, { description = 'toggle keep on top', group = 'client' }),
     awful.key({ modkey }, 'n', function(c)
       -- The client currently has the input focus, so it cannot be
