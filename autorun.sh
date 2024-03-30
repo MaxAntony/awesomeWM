@@ -20,6 +20,9 @@ run mattermost-desktop
 run thunderbird
 run ferdium
 run nextcloud
+# kdeconnect daemon
+run /usr/lib/kdeconnectd
+run kdeconnect-indicator
 
 # find profile names in ~/config/google-chrome
 # open chrome with 'pacami' profile and open youtube
@@ -33,6 +36,7 @@ run nextcloud
 # google-chrome-stable --profile-directory="Profile 3" https://youtube.com
 
 run firefox https://reddit.com
+run waterfox https://hub.fixa.digital/apps/calendar/timeGridWeek/now
 # // TODO: Run next line only if there is no instances of firefox
 firefox https://dev.to
 
