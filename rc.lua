@@ -649,3 +649,20 @@ naughty.connect_signal('request::display', function(n) naughty.layout.box({ noti
 client.connect_signal('mouse::enter', function(c) c:activate({ context = 'mouse_enter', raise = false }) end)
 
 awful.spawn.with_shell(awesome_dir .. '/autorun.sh')
+
+-- https://www.reddit.com/r/awesomewm/comments/jn6cvv/tag_change_both_monitors_at_once/?rdt=35708
+tag.connect_signal('property::selected', function(t)
+  if t.selected then
+    local ts = t.screen
+    local idx = t.index
+    awful.screen.connect_for_each_screen(function(s)
+      if s == ts then
+        return nil
+      end
+      local tag = s.tags[idx]
+      if tag then
+        tag:view_only()
+      end
+    end)
+  end
+end)
