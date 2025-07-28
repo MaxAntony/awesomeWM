@@ -3,7 +3,7 @@ local naughty = require('naughty')
 
 local whisper = {
   audio_file = '/tmp/whisper_audio.wav',
-  transcription_file = '/tmp/whisper_transcription.txt',
+  transcription_file = '/tmp/whisper_audio.txt',
   output_text = '',
   recording_pid = nil,
   last_focused_window = nil,
@@ -56,7 +56,7 @@ end
 
 -- Transcribir audio con Whisper
 function whisper.transcribe_audio()
-  local cmd = string.format('whisper %s --model medium --device cuda --model tiny --language es --output_format txt --output_dir /tmp > /dev/null 2>&1', whisper.audio_file)
+  local cmd = string.format('whisper %s --device cuda --model tiny --language es --output_format txt --output_dir /tmp > /dev/null 2>&1', whisper.audio_file)
 
   awful.spawn.easy_async_with_shell(cmd, function()
     local f = io.open(whisper.transcription_file, 'r')
